@@ -1,0 +1,34 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+type Query {
+  user(id: ID! @eq): User @find
+  users(orderBy: _ @orderBy(columns: ["name", "id"])): [User!]! @all
+  posts: [Post!]! @paginated
+  post(id: ID! @eq): Post @find
+  
+}
+
+type Mutation {
+  createUser(name: String!, email: String!, password: String!): User! @create
+}
+
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    email_verified_at: DateTime
+    created_at: DateTime!
+    updated_at: DateTime!
+    posts: [Post!]!
+}
+type Post {
+    id: ID!
+    title: String!
+    desc: String!
+    author_id: ID
+    author: User
+    created_at: DateTime!
+    updated_at: DateTime!
+}
