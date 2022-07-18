@@ -4,13 +4,43 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 type Query {
   user(id: ID! @eq): User @find
   users(orderBy: _ @orderBy(columns: ["name", "id"])): [User!]! @all
-  posts: [Post!]! @paginated
+  posts: [Post!]! @all
   post(id: ID! @eq): Post @find
   
 }
 
 type Mutation {
   createUser(name: String!, email: String!, password: String!): User! @create
+  createPost(input: CreatePostInput! @spread): Post @create
+}
+
+input CreatePostInput {
+  title: String!
+  desc: String!
+  author: CreateUserBelongsTo
+}
+
+input CreateUserBelongsTo {
+  connect: ID
+  create: CreateUserInput
+  update: UpdateUserInput
+  upsert: UpsertUserInput
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  id: ID!
+  name: String
+  email: String!
+}
+input UpsertUserInput {
+  name: String
+  email: String!
 }
 
 
