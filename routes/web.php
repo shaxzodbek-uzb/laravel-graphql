@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [FileController::class, 'index']);
+Route::get('/file', [FileController::class, 'create']);
+Route::get('/file/get-local-file', [FileController::class, 'getLocalFile'])->name('file.get-local-file');
+Route::post('/file', [FileController::class, 'store'])->name('file.store');
